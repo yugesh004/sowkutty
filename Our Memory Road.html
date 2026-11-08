@@ -1,0 +1,452 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Our Memory Road</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap">
+<style>
+/* Layout: one long road runs down the left edge. Each year is a stop on it,
+   with a card tinted in that stop's own color. A heart travels the road as you scroll. */
+:root {
+  --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-body: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+
+  --bg: #FBF7FC;
+  --surface: #FFFFFF;
+  --fg: #2A1B33;
+  --muted: #6B5A76;
+  --line: #E7DBEC;
+
+  --blue: #3D6FE3;
+  --teal: #14A0B3;
+  --green: #1E9E78;
+  --violet: #8A63D2;
+  --amber: #EDA11C;
+  --rose: #E0457B;
+
+  --btn-bg: #C42E68;
+  --btn-fg: #FFFFFF;
+  --focus: #3D6FE3;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #160F1D;
+    --surface: #211729;
+    --fg: #F5ECF8;
+    --muted: #B9A7C4;
+    --line: #3A2A46;
+    --blue: #6C94F5;
+    --teal: #3CC3D6;
+    --green: #3CC59A;
+    --violet: #A98AE8;
+    --amber: #F4B63F;
+    --rose: #F06A99;
+    --btn-bg: #F06A99;
+    --btn-fg: #2A0F1B;
+    --focus: #9DB8FF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #160F1D;
+  --surface: #211729;
+  --fg: #F5ECF8;
+  --muted: #B9A7C4;
+  --line: #3A2A46;
+  --blue: #6C94F5;
+  --teal: #3CC3D6;
+  --green: #3CC59A;
+  --violet: #A98AE8;
+  --amber: #F4B63F;
+  --rose: #F06A99;
+  --btn-bg: #F06A99;
+  --btn-fg: #2A0F1B;
+  --focus: #9DB8FF;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 760px; margin: 0 auto; }
+
+/* Hero */
+.hero { display: grid; gap: 16px; padding-block: 24px 40px; }
+.eyebrow {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(3.2rem, 13vw, 6rem);
+  line-height: 0.95;
+  text-wrap: balance;
+}
+h1 .grad {
+  color: var(--violet);
+  background: linear-gradient(90deg, var(--blue), var(--violet), var(--rose));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-right: 0.08em;
+}
+.lede { margin: 0; max-width: 46ch; font-size: 1.15rem; color: var(--muted); }
+.spectrum {
+  height: 6px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--blue), var(--teal), var(--green), var(--violet), var(--amber), var(--rose));
+}
+
+/* Road */
+.timeline { position: relative; display: grid; gap: 22px; padding-left: 52px; }
+.road {
+  position: absolute;
+  left: 14px; top: 0; bottom: 0;
+  width: 12px;
+  border-radius: 99px;
+  background: linear-gradient(to bottom, var(--blue), var(--teal), var(--green), var(--violet), var(--amber), var(--rose));
+}
+.road::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 10px; bottom: 10px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.9) 0 8px, transparent 8px 16px);
+}
+.traveller {
+  position: absolute;
+  left: 5px; top: 0;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--rose);
+  box-shadow: 0 0 0 4px var(--bg), 0 6px 16px color-mix(in srgb, var(--rose) 55%, transparent);
+  z-index: 2;
+  transition: top 0.15s linear;
+}
+.traveller svg { width: 16px; height: 16px; fill: #fff; }
+
+.stop { position: relative; --c: var(--blue); min-width: 0; }
+.stop::before {
+  content: "";
+  position: absolute;
+  left: -43px; top: 24px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--c);
+  border: 4px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--c);
+  z-index: 1;
+}
+.c-blue { --c: var(--blue); }
+.c-teal { --c: var(--teal); }
+.c-green { --c: var(--green); }
+.c-violet { --c: var(--violet); }
+.c-amber { --c: var(--amber); }
+.c-rose { --c: var(--rose); }
+
+.card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 20px 20px 22px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--c) 11%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--c) 30%, var(--line));
+}
+.when {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--c) 60%, var(--fg));
+}
+.card h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.85rem;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.card p.text { margin: 0; max-width: 62ch; }
+.photo { margin-top: 6px; border-radius: 12px; overflow: hidden; }
+.photo img { display: block; width: 100%; height: auto; }
+
+/* Pickup lines */
+.lines {
+  display: grid;
+  gap: 16px;
+  margin-top: 56px;
+  padding: 28px 22px;
+  border-radius: 24px;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--rose) 16%, var(--surface)),
+    color-mix(in srgb, var(--amber) 14%, var(--surface)));
+  border: 1px solid color-mix(in srgb, var(--rose) 28%, var(--line));
+}
+.lines h2, .letter h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.85rem;
+  line-height: 1.1;
+}
+.lines .sub { margin: 0; color: var(--muted); }
+blockquote.line {
+  margin: 0;
+  min-height: 5.4em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.5rem, 5.4vw, 2.1rem);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+button {
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font: 700 0.95rem var(--font-body);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+button.primary { background: var(--btn-bg); color: var(--btn-fg); }
+button.ghost {
+  background: transparent;
+  color: var(--fg);
+  border-color: color-mix(in srgb, var(--fg) 30%, transparent);
+}
+button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.count {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Letter */
+.letter {
+  display: grid;
+  gap: 12px;
+  margin-top: 40px;
+  padding: 26px 22px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.letter p { margin: 0; max-width: 60ch; }
+.sign { font-family: var(--font-display); font-style: italic; font-size: 1.6rem; }
+.foot { margin: 36px 0 0; text-align: center; font-size: 0.85rem; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .traveller { transition: none; }
+}
+</style>
+
+<main class="wrap">
+  <header class="hero">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1><span class="grad">Our Memory Road</span></h1>
+    <p class="lede">From the 4th standard to today, one stop at a time. Scroll down and walk it with me.</p>
+    <div class="spectrum" aria-hidden="true"></div>
+  </header>
+
+  <section class="timeline" id="timeline" aria-label="Our story">
+    <div class="road" aria-hidden="true"></div>
+    <div class="traveller" id="traveller" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3 4.5 6.6 4.5c2 0 3.7 1 5.4 3 1.7-2 3.4-3 5.4-3 3.600 0 5.700 3.700 4.200 7.200C19.500 16.400 12 21 12 21z"/></svg>
+    </div>
+  </section>
+
+  <section class="lines" aria-labelledby="lines-title">
+    <h2 id="lines-title">Lines I saved for you</h2>
+    <p class="sub">Some are cheesy. All of them are true.</p>
+    <blockquote class="line" id="line" aria-live="polite"></blockquote>
+    <div class="row">
+      <button class="primary" id="next" type="button">Another line</button>
+      <button class="ghost" id="copy" type="button">Copy this line</button>
+      <span class="count" id="count"></span>
+    </div>
+  </section>
+
+  <section class="letter" aria-labelledby="letter-title">
+    <h2 id="letter-title">A few words for you</h2>
+    <p>I have missed you more than I ever said out loud. Two years ago the bus stand gave you back to me, and I do not want to lose that again.</p>
+    <p>Whatever name we give it, best friend or something more, I am happy you are in my life. I would love to see you soon. Tea or coffee, you choose.</p>
+    <p class="sign" id="sign"></p>
+  </section>
+
+  <p class="foot" id="foot"></p>
+</main>
+
+<script>
+/* Edit this block to personalise the page. Add a photo to any stop by setting photo to an image address. */
+var CONFIG = {
+  her: "",
+  me: "",
+  sign: "Your friend"
+};
+
+var STOPS = [
+  { when: "4th Standard", title: "The first time I saw you", c: "blue", photo: "",
+    text: "A small school, a new face in the class. I had no idea that day how long you would stay in my story." },
+  { when: "5th to 10th", title: "Same school, same bell", c: "teal", photo: "",
+    text: "Six years of the same school gate, the same lunch breaks and the same exam worries. Ordinary days then, my favourite memories now." },
+  { when: "6th to 10th", title: "Maths class", c: "green", photo: "",
+    text: "One teacher taught us mathematics through all those years. I may have forgotten some formulas, but I have not forgotten who was in that class." },
+  { when: "After 10th", title: "The long gap", c: "violet", photo: "",
+    text: "School ended and we went in different directions. We did not meet for a long time, and I carried the old memories with me anyway." },
+  { when: "Two years ago", title: "The bus stand", c: "amber", photo: "",
+    text: "I saw you at the bus stand after all those years. The same cute face from school, a little more grown up. For a moment every old memory came running back." },
+  { when: "Today", title: "BA finished, PG at Vijay Vidyalaya College", c: "rose", photo: "",
+    text: "You are doing your PG at Vijay Vidyalaya College now. You were my school friend, then my best friend, and now you feel like my soulmate. I miss you." }
+];
+
+var LINES = [
+  "From the 4th standard till your PG, my favourite memory is still you.",
+  "I was never great at maths, but I know one thing for sure: you plus me makes a perfect pair.",
+  "Is this the bus stand? Because my heart stopped the moment you showed up.",
+  "You are the only answer I would never check twice.",
+  "I did not top anything in school, but meeting you again was my best result.",
+  "Do you have a map? I keep getting lost in our memories.",
+  "You have been my best friend for years. Can I apply for a promotion?",
+  "Our school bell rang years ago, but my heart still rings when I see you.",
+  "Distance between us: one bus ride. Distance from my heart: zero.",
+  "Even the hardest chapter of maths felt easy when you were around.",
+  "You do not need a PG degree to know you already have my heart.",
+  "If friendship is the road, I would like to keep walking it with you."
+];
+
+(function () {
+  var tl = document.getElementById("timeline");
+
+  document.getElementById("eyebrow").textContent =
+    "A memory road for " + (CONFIG.her || "my best friend");
+  document.getElementById("sign").textContent = "With love, " + CONFIG.sign;
+  document.getElementById("foot").textContent =
+    "Made with love, from " + (CONFIG.me || "me") + " to " + (CONFIG.her || "you") + ".";
+
+  STOPS.forEach(function (s) {
+    var art = document.createElement("article");
+    art.className = "stop c-" + s.c;
+    var card = document.createElement("div");
+    card.className = "card";
+
+    var when = document.createElement("p");
+    when.className = "when";
+    when.textContent = s.when;
+    var h = document.createElement("h2");
+    h.textContent = s.title;
+    var p = document.createElement("p");
+    p.className = "text";
+    p.textContent = s.text;
+
+    card.appendChild(when);
+    card.appendChild(h);
+    card.appendChild(p);
+
+    if (s.photo) {
+      var wrap = document.createElement("div");
+      wrap.className = "photo";
+      var img = document.createElement("img");
+      img.src = s.photo;
+      img.alt = s.title;
+      wrap.appendChild(img);
+      card.appendChild(wrap);
+    }
+    art.appendChild(card);
+    tl.appendChild(art);
+  });
+
+  /* Heart travelling along the road */
+  var trav = document.getElementById("traveller");
+  var ticking = false;
+  function place() {
+    ticking = false;
+    var r = tl.getBoundingClientRect();
+    var p = (window.innerHeight * 0.45 - r.top) / r.height;
+    p = Math.min(1, Math.max(0, p));
+    trav.style.top = (p * (r.height - 30)) + "px";
+  }
+  function request() {
+    if (!ticking) { ticking = true; requestAnimationFrame(place); }
+  }
+  window.addEventListener("scroll", request, { passive: true });
+  window.addEventListener("resize", request);
+  window.addEventListener("load", request);
+  place();
+
+  /* Pickup lines: shuffled so none repeats until all are seen */
+  var lineEl = document.getElementById("line");
+  var countEl = document.getElementById("count");
+  var copyBtn = document.getElementById("copy");
+  var order = [];
+  var pos = -1;
+  var last = -1;
+
+  function shuffle() {
+    order = LINES.map(function (_, i) { return i; });
+    for (var i = order.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = order[i]; order[i] = order[j]; order[j] = t;
+    }
+    if (order[0] === last && order.length > 1) {
+      var t2 = order[0]; order[0] = order[1]; order[1] = t2;
+    }
+    pos = -1;
+  }
+  function showNext() {
+    if (pos + 1 >= order.length) shuffle();
+    pos += 1;
+    last = order[pos];
+    lineEl.textContent = LINES[last];
+    countEl.textContent = (pos + 1) + " of " + LINES.length;
+    copyBtn.textContent = "Copy this line";
+  }
+  document.getElementById("next").addEventListener("click", showNext);
+
+  copyBtn.addEventListener("click", function () {
+    var text = lineEl.textContent;
+    function selectFallback() {
+      var range = document.createRange();
+      range.selectNodeContents(lineEl);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      copyBtn.textContent = "Selected, press copy";
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () {
+        copyBtn.textContent = "Copied";
+      }, selectFallback);
+    } catch (e) {
+      selectFallback();
+    }
+  });
+
+  shuffle();
+  showNext();
+})();
+</script>
+
+</body></html>
